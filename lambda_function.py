@@ -1,5 +1,4 @@
 import os
-
 import boto3
 import json
 
@@ -10,9 +9,9 @@ s3 = boto3.resource('s3')
 
 def lambda_handler(event, context):
     
-    BUCKET_NAME = 'sagemaker-us-west-2-601091450883' 
-    OBJECT_KEY = 'data/paper.jpg' #plastic-bottle.jpg' glass_bottle.jpg'
-    file_name = '/tmp/paper.jpg'
+    BUCKET_NAME = 'your-bucket-name' 
+    OBJECT_KEY = 'SageMaker_Custom_Container/data/glass_bottle.jpg' #plastic_bottle.jpg' #paper.jpg' 
+    file_name = '/tmp/glass_bottle.jpg'
     s3.Bucket(BUCKET_NAME).download_file(OBJECT_KEY, file_name)
     
     payload = ''
