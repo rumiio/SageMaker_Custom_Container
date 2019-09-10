@@ -28,8 +28,8 @@ if not os.path.exists(DATA_PATH):
 # creating a model folder in tmp directry as opt/ml/model is read-only and 
 # fastai's load_learner requires to be able to write.
 if not os.path.exists(TMP_MODEL_PATH):
-    os.makedirs(str(TMP_MODEL_PATH), mode=0o755,exist_ok=True)
-	print(TMP_MODEL_PATH + has been created)
+    os.makedirs(TMP_MODEL_PATH, mode=0o755,exist_ok=True)
+	print(str(TMP_MODEL_PATH) + has been created)
 else:
     os.chmod(TMP_MODEL_PATH, stat.S_IRWXG)
     if os.path.exists(MODEL_PATH):
