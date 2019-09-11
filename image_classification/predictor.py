@@ -29,7 +29,7 @@ if not os.path.exists(DATA_PATH):
 # fastai's load_learner requires to be able to write.
 if not os.path.exists(TMP_MODEL_PATH):
     os.makedirs(TMP_MODEL_PATH, mode=0o755,exist_ok=True)
-	print(str(TMP_MODEL_PATH) + 'has been created')
+    print(str(TMP_MODEL_PATH) + 'has been created')
 else:
     os.chmod(TMP_MODEL_PATH, stat.S_IRWXG)
     if os.path.exists(MODEL_PATH):
