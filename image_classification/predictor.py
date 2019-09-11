@@ -29,7 +29,7 @@ if not os.path.exists(DATA_PATH):
 # fastai's load_learner requires to be able to write.
 if not os.path.exists(TMP_MODEL_PATH):
     os.makedirs(TMP_MODEL_PATH, mode=0o755,exist_ok=True)
-	print(str(TMP_MODEL_PATH) + has been created)
+	print(str(TMP_MODEL_PATH) + 'has been created')
 else:
     os.chmod(TMP_MODEL_PATH, stat.S_IRWXG)
     if os.path.exists(MODEL_PATH):
@@ -55,7 +55,7 @@ class ClassificationService(object):
     @classmethod
     def get_model(cls):
         """Get the model object for this instance."""
-        return load_learner(TMP_MODEL_PATH, fname=MODEL_NAME) 
+        return load_learner(TMP_MODEL_PATH, MODEL_NAME) 
 
     @classmethod
     def predict(cls, input):
