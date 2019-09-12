@@ -55,7 +55,7 @@ class ClassificationService(object):
     @classmethod
     def get_model(cls):
         """Get the model object for this instance."""
-        return load_learner(path=TMP_MODEL_PATH, MODEL_NAME) 
+        return load_learner(path=TMP_MODEL_PATH) #, MODEL_NAME) 
 
     @classmethod
     def predict(cls, input):
