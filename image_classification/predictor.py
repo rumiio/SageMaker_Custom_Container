@@ -30,13 +30,13 @@ if not os.path.exists(DATA_PATH):
 if not os.path.exists(TMP_MODEL_PATH):
     os.makedirs(TMP_MODEL_PATH, mode=0o755,exist_ok=True)
     print(str(TMP_MODEL_PATH) + 'has been created')
-else:
     os.chmod(TMP_MODEL_PATH, stat.S_IRWXG)
-    if os.path.exists(MODEL_PATH):
-        model_file = glob.glob('/opt/ml/model/*.pkl')[0]
-        path, MODEL_NAME = os.path.split(model_file)
-        print('MODEL_NAME holds: ' + str(MODEL_NAME))
-        shutil.copy(model_file, TMP_MODEL_PATH)
+	
+if os.path.exists(MODEL_PATH):
+    model_file = glob.glob('/opt/ml/model/*.pkl')[0]
+    path, MODEL_NAME = os.path.split(model_file)
+    print('MODEL_NAME holds: ' + str(MODEL_NAME))
+    shutil.copy(model_file, TMP_MODEL_PATH)
 
 def write_test_image(stream):
     with open(IMG_FOR_INFERENCE, "bw") as f:
