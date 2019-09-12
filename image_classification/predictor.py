@@ -29,13 +29,13 @@ if not os.path.exists(DATA_PATH):
 # fastai's load_learner requires to be able to write.
 if not os.path.exists(TMP_MODEL_PATH):
     os.makedirs(TMP_MODEL_PATH, mode=0o755,exist_ok=True)
-    print(str(TMP_MODEL_PATH) + 'has been created')
+    #print(str(TMP_MODEL_PATH) + ' has been created')
     os.chmod(TMP_MODEL_PATH, stat.S_IRWXG)
 	
 if os.path.exists(MODEL_PATH):
     model_file = glob.glob('/opt/ml/model/*.pkl')[0]
     path, MODEL_NAME = os.path.split(model_file)
-    print('MODEL_NAME holds: ' + str(MODEL_NAME))
+    #print('MODEL_NAME holds: ' + str(MODEL_NAME))
     shutil.copy(model_file, TMP_MODEL_PATH)
 
 def write_test_image(stream):
@@ -55,7 +55,7 @@ class ClassificationService(object):
     @classmethod
     def get_model(cls):
         """Get the model object for this instance."""
-        return load_learner(path=TMP_MODEL_PATH) #, MODEL_NAME) 
+        return load_learner(path=TMP_MODEL_PATH) #default model name of export.pkl 
 
     @classmethod
     def predict(cls, input):
