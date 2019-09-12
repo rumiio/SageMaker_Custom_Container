@@ -46,42 +46,58 @@ The ideas shown here will work in any language or environment. You'll need to ch
 ## Prerequisites for the Workshop
 
 - Sign up for an AWS account
+- Know how to SSH into an EC2 instance.
 
 
 ## Workshop Roadmap
 
-- Launch EC2 instance.
+- **Launch EC2 instance** where you will be building the Docker image and push it to ECR to be ready for use by SageMaker.
 - Create a model object on SageMaker.
 - Create an endpoint configuration on SageMaker.
 - Create an endpoint.
 - Create a Lambda function to test your endpoint.
 
 
-## Launch Jupyter Notebook Environment on Amazon SageMaker
+## Launch EC2 Instance
 
-1. Click on **Amazon SageMaker** from the list of all services by entering Sagemaker into the **Find services** box. This will bring you to the Amazon SageMaker console homepage. 
+1. Click on **EC2** from the list of all services by entering EC2 into the **Find services** box. This will bring you to the EC2 console homepage. 
 
-1. To create a new Jupyter notebook instance, go to **Notebook instances** in the Amazon SageMaker console, and click the **Create notebook instance** button at the top of the browser window.
+1. To launch a new EC2 instance, click on the **Launch instance** button. 
 
-    ![sagemakerCreateNotebook](./images/sagemakerCreateNotebook.png)
+    ![ec2Console](./images/ec2Console.png)
 
-1. Type *Custom-Container-Workshop* into the **Notebook instance name** text box, and then *ml.m5.2xlarge* into the **Notebook instance type**. Note, there is not need to launch a large, compute-optimized C5 or GPU-based instance type.
+1. To choose Amazon Linux AMI, click on the blue **Select** button. 
 
-    ![sagemakerCreateNotebook2](./images/sagemakerCreateNotebook2.png)
+    ![ec2Launch](./images/ec2Launch.png)
 
-    On the **Permission and encryption** section of the same page, choose **Create a new role** from the dropdown list. It will bring up the following popup window. Here, you can specify your S3 bucket or choose *Any S3 bucket* if you don't have S3 bucket created yet. For security purposes, we always recommend to choose *Specific S3 bucket* option but for the purpose of the lab, you could choose *Any S3 bucket*.  
+1. If your account allows C instance, choose c5.4xlarge. If not, choose one of m5 instances. Click on **Next: Configure Instance Details** button. 
 
-    ![sagemakerCreateNotebook3](./images/sagemakerCreateNotebook3.png)
+    ![ec2InstanceType](./images/ec2InstanceType.png)
 
-    Lastly on this wizard, scroll down to the **Git repositories** section and choose *Clone a public Git repository to this notebook instance only* option. Then enter the URL of this workshop as shown below. Click on **Create notebook instance** button. 
+1. No change reuqired on **Step 3: Configure Instance Details**. Click **Next: Add Storage** button. 
 
-    https://github.com/rumiio/SageMaker_Custom_Container.git   
+    On the **Add Storage** page, make sure to change the storage size to 150 GiB. This is important step as building Docker container will run out of space if you leave as the default value of 75 GiB.
 
-    ![sagemakerCreateNotebook4](./images/sagemakerCreateNotebook4.png)
+    Click on **Review and Launch** button. 
 
-＃TODO: add these permissions is simply to add the managed policy AmazonEC2ContainerRegistryFullAccess to the role that you used to start your notebook instance.
+    ![ec2AddStorage](./images/ec2AddStorage.png)
 
+1. On **Step 7: Review Instance Launch**, click on the **Launch** button. It will bring up a **Select key pair window**. Select **Choose existing key pair** if you already have one. Select **Create a new key pair** if you don't have one. 
 
-1. Wait until the notebook instance status is **InService**. This will take a few minutes once the creation process has started. Then click on **Open Jupyter**.
+    ![ec2KeyPair](./images/ec2KeyPair.png)
 
-    ![sagemakerCreateNotebook5](./images/sagemakerCreateNotebook5.png)
+1. SSH int to the EC2 instance using the key pair. After you are on your EC2 instance, do the following:
+
+    - Set up your instance to access your AWS account resources, using the following command. You will need **Access Key ID** and **Secret Access Key**. If you don't have them and don't know how to get them, go [here]().  
+
+        aws configure
+
+    - Clone the github repo
+    - Run build_and_push.sh
+        ``` 
+        >cd SageMaker_Custom_Container     
+        >chmod +x build_and_push.sh
+        >./build_and_push.sh image_classification_sample
+        ```
+        >   
+
