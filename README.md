@@ -1,4 +1,4 @@
-# Bring your own model with SageMaker by building a custom container
+# Bring your own training-completed model with SageMaker by building a custom container
 
 
 [Amazon SageMaker](https://aws.amazon.com/sagemaker/) provides every developer and data scientist with the ability to build, train, and deploy machine learning models quickly. Amazon SageMaker is a fully-managed service that covers the entire machine learning workflow to label and prepare your data, choose an algorithm, train the model, tune and optimize it for deployment, make predictions, and take action. Your models get to production faster with much less effort and lower cost.
@@ -19,8 +19,29 @@ If there isn't direct SDK support for your environment, don't worry. You'll see 
 
 We will show how to package a simple Pytorch image classification model which classifies types of recycle item. For simplification, there are 3 categories of recycle item, paper, glass bottle, and plastic bottle. The model predicts the image passed on is any of the 3 categories.   
 
- The example is purposefully fairly trivial since the point is to show the surrounding structure that you'll want to add to your own code to host it in Amazon SageMaker.
+The example is purposefully fairly trivial since the point is to show the surrounding structure that you'll want to add to your own code to host it in Amazon SageMaker.
 
+The ideas shown here will work in any language or environment. You'll need to choose the right tools for your environment to serve HTTP requests for inference, but good HTTP environments are available in every language these days.
+
+## Contents of the solution
+
+
+- **build_and_push.sh** is a script that uses the Dockerfile to build your container images and then pushes it to ECR. The argument you pass here will be used as your ECR repository name. 
+- **Dockerfile** describes how to build your Docker container image, and specifies which libraries and frameworks to be installed to host your model. If your model is trained with frameworks other than Pytorch and fastai, you will update this file.  
+- **lambda_function.py** contains the code that downloads a test image from a S3 bucket, and then invokes the SageMaker endpoint sending the image for an inference. You will paste this code to your Lambda function after the endpoint creation is done. 
+- **data folder** contains test images. You will upload those images to your S3 bucket.
+- **model folder** contains the compressed Pytorch/fastai image classification model. You will upload the tar.gz file to your S3 bucket.
+- **image_classification** folder contains the following files that are going to be copied into the Docker image that hosts your model.
+    - **nginx.conf** is the configuration file for the nginx front-end. No need to modify this file and use it as-is.
+    - **serve** is the program that starts when the container is started for hosting. It simply launches the gunicorn server which runs multiple instances of the Flask app defined in predictor.py. No need to modify this file and use it as-is.
+    - **wsgi.py** is a small wrapper used to invoke the Flask app. No need to modify this file and use it as-is.
+    - **predictor.py** is the program that actually implements the Flask web server and the image classification predictions. Amazon SageMaker uses two URLs in the container:
+        - **/ping** will receive GET requests from the infrastructure. The program returns 200 if the container is up and accepting requests.
+        - **/invocations** is the endpoint that receives client’s inference POST requests. The format of the request and the response depends on the algorithm. For this blog post, we will be receiving a JPEG image and the model will classify which type of recycling item it is. It returns the results text in a JSON format.
+
+
+
+    ![archDiagram](./images/archDiagram.jpg)
 
 ## Prerequisites for the Workshop
 
@@ -29,7 +50,11 @@ We will show how to package a simple Pytorch image classification model which cl
 
 ## Workshop Roadmap
 
-- Launch Jupyter Notebook environment on Amazon SageMaker
+- Launch EC2 instance.
+- Create a model object on SageMaker.
+- Create an endpoint configuration on SageMaker.
+- Create an endpoint.
+- Create a Lambda function to test your endpoint.
 
 
 ## Launch Jupyter Notebook Environment on Amazon SageMaker
