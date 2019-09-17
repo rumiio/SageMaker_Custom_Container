@@ -93,11 +93,47 @@ The ideas shown here will work in any language or environment. You'll need to ch
         aws configure
 
     - Clone the github repo
+       ``` 
+        > git clone https://github.com/rumiio/SageMaker_Custom_Container.git
+       ``` 
     - Run build_and_push.sh
         ``` 
         >cd SageMaker_Custom_Container     
         >chmod +x build_and_push.sh
         >./build_and_push.sh image_classification_sample
         ```
-        >   
+1. Go to ECR console and see the repo and image that were created by executing **build_and_push.sh**. Copy the image URL. We will use this when we create the model object on SageMaker. 
 
+    <account_number>.dkr.ecr.us-west-2.amazonaws.com/image_classification_sample:latest
+
+## Create a Model Object on SageMaker
+
+1. On the SageMaker console, go to **Models**, and click on **Create model** button. 
+
+1. Enter model name, location of the model arcifacts (S3 location) , and container host name which is the image URL you copied in the previous step. Leave everything else blank or default value. 
+
+## Create an Endpoint Configuration on SageMaker.
+
+1. On the SageMaker console, go to **Endpoint Configurations**, and click on **Create endpoint configuration.** 
+
+1. Enter Endpoint configuration name, add model and then click on **Create endpoint configuration** button.
+
+## Create an Endpoint
+
+1. On the SageMaker console, go to **Endpoint**, and clikc on **Create endpoint** button.
+
+1. Enter endpoint name, specify endpoint configuration you created in the previous step, and clikc on **Create endpoint** button. 
+
+## Create a Lambda Function to Test your Endpoint.
+
+1. Go to the Lambda console, click on **Create function** button.
+
+1. Select **Author from scratch** option. Enter funciton name, choose **Python 3.6 for the Runtime, and click on *Create function** button. 
+
+1. Copy and code from lambda_function.py and paste it into the code window.  
+
+1. Create **ENDPOINT_NAME** envrionment variables and enter your Sagemaker endpoint name. 
+
+1. Increase the timeout on basic setting to be 30 seconds. 
+
+1. If you don't have a Lambda execution role, create a new one. 
