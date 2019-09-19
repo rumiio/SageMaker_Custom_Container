@@ -102,38 +102,95 @@ The ideas shown here will work in any language or environment. You'll need to ch
         >chmod +x build_and_push.sh
         >./build_and_push.sh image_classification_sample
         ```
-1. Go to ECR console and see the repo and image that were created by executing **build_and_push.sh**. Copy the image URL. We will use this when we create the model object on SageMaker. 
+1. Go to ECR console and see the repo and image that were created by executing **build_and_push.sh** in the previous step. Copy the image URI. We will use this when we create the model object on SageMaker. 
 
     <account_number>.dkr.ecr.us-west-2.amazonaws.com/image_classification_sample:latest
+
+    ![ecr](./images/ecr.png)
+
+1. Run the following commands to copy the contents of data and model folders to your S3 bucket (the bucket has to be in the same region as the region you will be using SageMaker) 
+    ``` 
+    aws s3 cp ./data/glass_bottle.jpg s3://your-bucket-name/SageMaker_Custom_Container/data/glass_bottle.jpg
+    aws s3 cp ./data/paper.jpg s3://your-bucket-name/SageMaker_Custom_Container/data/paper.jpg
+    aws s3 cp ./data/plastic_bottle.jpg s3://your-bucket-name/SageMaker_Custom_Container/data/plastic_bottle.jpg
+    aws s3 cp ./model/model.tar.gz s3://your-bucket-name/SageMaker_Custom_Container/model/model.tar.gz
+    ``` 
 
 ## Create a Model Object on SageMaker
 
 1. On the SageMaker console, go to **Models**, and click on **Create model** button. 
 
-1. Enter model name, location of the model arcifacts (S3 location) , and container host name which is the image URL you copied in the previous step. Leave everything else blank or default value. 
+    ![sagemakerModel](./images/sagemakerModel.png)
+
+    ![sagemakerModel2](./images/sagemakerModel2.png)
+
+1. Enter model name *image-classification-recycle*. Choose a SageMaker IAM role if you have it. If not, choose **Create a new role**.  
+
+    ![sagemakerModel2_5](./images/sagemakerModel2_5.png)
+
+    Scroll down and enter the location of the model arcifacts (S3 location), and container host name which is the image URI you copied in the previous section. Leave everything else blank or as default value. After done entering those values, click on **Create model** button
+
+    ![sagemakerModel3](./images/sagemakerModel3.png)
+
+
 
 ## Create an Endpoint Configuration on SageMaker.
 
-1. On the SageMaker console, go to **Endpoint Configurations**, and click on **Create endpoint configuration.** 
+1. On the SageMaker console, go to **Endpoint Configurations**, and click on **Create endpoint configuration** button.  
 
-1. Enter Endpoint configuration name, add model and then click on **Create endpoint configuration** button.
+    ![sagemakerEndpointConf](./images/sagemakerEndpointConf.png)
+
+    ![sagemakerEndpointConf2](./images/sagemakerEndpointConf2.png)
+
+1. Enter Endpoint configuration name, *image-classification-recycle-conf*. Click on the **Add model** button link.  It will bring up a pop up that lists available model objects. Select the one you created in the previous step. Then click on **Create endpoint configuration** button on the bottom of the page.
+
+    ![sagemakerEndpointConf3](./images/sagemakerEndpointConf3.png)
+
+
 
 ## Create an Endpoint
 
-1. On the SageMaker console, go to **Endpoint**, and clikc on **Create endpoint** button.
+1. On the SageMaker console, go to **Endpoint**, and click on **Create endpoint** button.
 
-1. Enter endpoint name, specify endpoint configuration you created in the previous step, and clikc on **Create endpoint** button. 
+1. Enter endpoint name, *image-classification-recycle*. Choose **Use an existing endpoint configuration** option, and specify endpoint configuration you created in the previous step. Click on **Create endpoint** button on the bottom of the page. 
+
+    ![sagemakerEndpoint](./images/sagemakerEndpoint.png)
+
+
 
 ## Create a Lambda Function to Test your Endpoint.
 
 1. Go to the Lambda console, click on **Create function** button.
 
-1. Select **Author from scratch** option. Enter funciton name, choose **Python 3.6 for the Runtime, and click on *Create function** button. 
+1. Select **Author from scratch** option, and enter funciton name, *Call-SageMaker-Endpoint-Image-Class*. Choose **Python 3.6** for the Runtime. 
+
+    ![lambdaCreateFunction](./images/lambdaCreateFunction.png)
+
+    For the execution role, choose **Create a new role with basic Lambda permissions**. Then click on **Create function** button. 
+
+    ![lambdaCreateFunction2](./images/lambdaCreateFunction2.png)
+
+1. After the function is created, scroll down to **Execution role** section and click on the link of **View the Call-SageMaker-Endpoint-Image-Class-role-...** link under the **Existing role** dropdown. It will bring up the IAM console where you will add one policy to the role.   
+
+    ![lambdaIAM](./images/lambdaIAM.png)
+
+    On the Summry page, click on **Attach policy** button. 
+
+    ![IamAttachPolicy](./images/IamAttachPolicy.png)
+
+    Type **SageMakerFullAccess** on the search box. Select the checkbox once the policy name is  Click on the **Attach policy** button on the bottom of the page. 
+
+    ![IamAttachPolicy2](./images/IamAttachPolicy2.png)
 
 1. Copy and code from lambda_function.py and paste it into the code window.  
 
-1. Create **ENDPOINT_NAME** envrionment variables and enter your Sagemaker endpoint name. 
+    ![lambdaCode](./images/lambdaCode.png)
 
-1. Increase the timeout on basic setting to be 30 seconds. 
+1. Create **ENDPOINT_NAME** envrionment variables and enter your Sagemaker endpoint name. Create **BUCKET_NAME** envrionment variables and enter your bucket name.
 
-1. If you don't have a Lambda execution role, create a new one. 
+    ![lambdaEnvVariable](./images/lambdaEnvVariable.png)
+
+1. Increase the timeout on basic setting to be 30 seconds. Click on the **Save** on the upper right corner. 
+
+    ![lambdaTimeout](./images/lambdaTimeout.png)
+
