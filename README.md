@@ -8,7 +8,7 @@ In this session, you will build a custom container which contains a train-comple
 
 ## When should I build my own algorithm container?
 
-You may not need to create a container to bring your own code to Amazon SageMaker. When you are using a framework (such as Apache MXNet or TensorFlow) that has direct support in SageMaker, you can simply supply the Python code that implements your algorithm using the SDK entry points for that framework. This set of frameworks is continually expanding, so we recommend that you check the current list if your algorithm is written in a common machine learning environment.
+You may not need to create a container to bring your own code to Amazon SageMaker. When you are using a framework (such as Apache MXNet or TensorFlow) that has [direct support in SageMaker](https://sagemaker.readthedocs.io/en/stable/), you can simply supply the Python code that implements your algorithm using the SDK entry points for that framework. This set of frameworks is continually expanding, so we recommend that you check the current list if your algorithm is written in a common machine learning environment.
 
 Even if there is direct SDK support for your environment or framework, you may find it more effective to build your own container. If the code that implements your algorithm is quite complex on its own or you need special additions to the framework, building your own container may be the right choice.
 
@@ -26,9 +26,9 @@ The ideas shown here will work in any language or environment. You'll need to ch
 ## Contents of the solution
 
 
-- **build_and_push.sh** is a script that uses the Dockerfile to build your container images and then pushes it to ECR. The argument you pass here will be used as your ECR repository name. 
-- **Dockerfile** describes how to build your Docker container image, and specifies which libraries and frameworks to be installed to host your model. If your model is trained with frameworks other than Pytorch and fastai, you will update this file.  
-- **lambda_function.py** contains the code that downloads a test image from a S3 bucket, and then invokes the SageMaker endpoint sending the image for an inference. You will paste this code to your Lambda function after the endpoint creation is done. 
+- **build_and_push.sh** is a script that uses the Dockerfile to build your container images and then pushes it to [Amazon Elastic Container Registry (ECR)](https://aws.amazon.com/ecr/). The argument you pass here will be used as your ECR repository name. 
+- **Dockerfile** describes how to build your Docker container image, and specifies which libraries and frameworks to be installed to host your model. If your model is trained with frameworks other than Pytorch and [fastai](https://www.fast.ai/), you will update this file.  
+- **lambda_function.py** contains the code that downloads a test image from an [Amazon S3](https://aws.amazon.com/s3/) bucket, and then invokes the SageMaker endpoint sending the image for an inference. You will paste this code to your [Lambda](https://aws.amazon.com/lambda/) function after the endpoint creation is done. 
 - **data folder** contains test images. You will upload those images to your S3 bucket.
 - **model folder** contains the compressed Pytorch/fastai image classification model. You will upload the tar.gz file to your S3 bucket.
 - **image_classification** folder contains the following files that are going to be copied into the Docker image that hosts your model.
@@ -51,11 +51,11 @@ The ideas shown here will work in any language or environment. You'll need to ch
 
 ## Workshop Roadmap
 
-- **Launch EC2 instance** where you will be building the Docker image and push it to ECR to be ready for use by SageMaker.
-- Create a model object on SageMaker.
-- Create an endpoint configuration on SageMaker.
-- Create an endpoint.
-- Create a Lambda function to test your endpoint.
+- **Launch [Amazon EC2](https://aws.amazon.com/ec2/) instance** where you will be building the Docker image and push it to ECR to be ready for use by SageMaker.
+- **Create a model object** on SageMaker.
+- **Create an endpoint configuration** on SageMaker.
+- **Create an endpoint**.
+- **Create a Lambda function** to test your endpoint.
 
 
 ## Launch EC2 Instance
@@ -66,7 +66,7 @@ The ideas shown here will work in any language or environment. You'll need to ch
 
     ![ec2Console](./images/ec2Console.png)
 
-1. To choose Amazon Linux AMI, click on the blue **Select** button. 
+1. Look for Deep Learning AMI (Amazon Linux) by typing *Deep Learning* the searchbox. To choose Deep Learning AMI, click on the blue **Select** button. 
 
     ![ec2Launch](./images/ec2Launch.png)
 
@@ -86,7 +86,11 @@ The ideas shown here will work in any language or environment. You'll need to ch
 
     ![ec2KeyPair](./images/ec2KeyPair.png)
 
-1. SSH int to the EC2 instance using the key pair. After you are on your EC2 instance, do the following:
+1. It would take a few minutes before the instance is ready for use. Once the status shows *running*, look up IP address from **IPv4 Public IP**. Use that IP address to SSH into the instance along the KeyPair.
+
+    ![ec2List](./images/ec2List.png)
+
+1. After you are on your EC2 instance, do the following:
 
     - Set up your instance to access your AWS account resources, using the following command. You will need **Access Key ID** and **Secret Access Key**. If you don't have them and don't know how to get them, go [here]().  
 
