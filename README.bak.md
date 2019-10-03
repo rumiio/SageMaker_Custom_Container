@@ -39,9 +39,9 @@ The ideas shown here will work in any language or environment. You'll need to ch
         - **/ping** will receive GET requests from the infrastructure. The program returns 200 if the container is up and accepting requests.
         - **/invocations** is the endpoint that receives client’s inference POST requests. The format of the request and the response depends on the algorithm. For this blog post, we will be receiving a JPEG image and the model will classify which type of recycling item it is. It returns the results text in a JSON format.
 
+
+
     ![archDiagram](./images/archDiagram.jpg)
-
-
 
 ## Prerequisites for the Workshop
 
@@ -51,37 +51,46 @@ The ideas shown here will work in any language or environment. You'll need to ch
 
 ## Workshop Roadmap
 
-- **Create a key Pair** for your [Amazon EC2](https://aws.amazon.com/ec2/) instance on where you will be be building the Docker image and push to ECR to be ready for use by SageMaker.
-- **Run CloudFormation template** to create an EC2 instance, IAM roles, a S3 bucket and a test Lambda function. 
-- **Connect to EC2 instance** via EC2 Instance Connect. 
+- **Launch [Amazon EC2](https://aws.amazon.com/ec2/) instance** where you will be building the Docker image and push it to ECR to be ready for use by SageMaker.
 - **Create a model object** on SageMaker.
 - **Create an endpoint configuration** on SageMaker.
 - **Create an endpoint**.
-- **Create a test event for the Lambda function** to call your endpoint.
-
-## Create a Key Pair
+- **Create a Lambda function** to test your endpoint.
 
 
-## Run CloudFormation Template
+## Launch EC2 Instance
 
+1. Click on **EC2** from the list of all services by entering EC2 into the **Find services** box. This will bring you to the EC2 console homepage. 
 
-## Connect to EC2 Instance
-
-1. On the AWS Management Console, type **EC2** in **Find Services** searchbox.  Select EC2 on the list. This will bring you to the EC2 console homepage. 
-
-1. Select **Instances** on the left navigation pane.  
+1. To launch a new EC2 instance, click on the **Launch instance** button. 
 
     ![ec2Console](./images/ec2Console.png)
 
-1. Look for *GPS-Builder-Session* tagged instance. Make sure the instance is in *running* state. If running, select the instance by clicking on the checkbox on the left. Then click on the **Connect** button next to Launch Instance blue button. 
+1. Look for Deep Learning AMI (Amazon Linux) by typing *Deep Learning* the searchbox. To choose Deep Learning AMI, click on the blue **Select** button. 
 
-    ![ec2LaunchedInstance](./images/ec2LaunchedInstance.png)
+    ![ec2Launch](./images/ec2Launch.png)
 
-    It will bring up **Connect To Your Instance** window. Choose *EC2 Instance Connection* option and leave User name as defult. Click **Connect** blue button. 
+1. If your account allows C instance, choose c5.4xlarge. If not, choose one of m5 instances. Click on **Next: Configure Instance Details** button. 
 
-    ![ec2ConnectToInstance](./images/ec2ConnectToInstance.png)
+    ![ec2InstanceType](./images/ec2InstanceType.png)
 
-1. After you are connected to your EC2 instance, do the following:
+1. No change reuqired on **Step 3: Configure Instance Details**. Click **Next: Add Storage** button. 
+
+    On the **Add Storage** page, make sure to change the storage size to 150 GiB. This is important step as building Docker container will run out of space if you leave as the default value of 75 GiB.
+
+    Click on **Review and Launch** button. 
+
+    ![ec2AddStorage](./images/ec2AddStorage.png)
+
+1. On **Step 7: Review Instance Launch**, click on the **Launch** button. It will bring up a **Select key pair window**. Select **Choose existing key pair** if you already have one. Select **Create a new key pair** if you don't have one. 
+
+    ![ec2KeyPair](./images/ec2KeyPair.png)
+
+1. It would take a few minutes before the instance is ready for use. Once the status shows *running*, look up IP address from **IPv4 Public IP**. Use that IP address to SSH into the instance along the KeyPair.
+
+    ![ec2List](./images/ec2List.png)
+
+1. After you are logged on your EC2 instance, do the following:
 
     - Set up your instance to access your AWS account resources, using the following command. You will need **Access Key ID** and **Secret Access Key**. If you don't have them and don't know how to get them, go [here]().  
         ``` 
@@ -98,10 +107,7 @@ The ideas shown here will work in any language or environment. You'll need to ch
         >chmod +x build_and_push.sh
         >./build_and_push.sh image_classification_sample
         ```
-    This step will take a few minutes.
-
-
-1. After the script completes, go to ECR console and see the repo and image that were created by executing **build_and_push.sh** in the previous step. Copy the image URI. We will use this when we create the model object on SageMaker. 
+1. Go to ECR console and see the repo and image that were created by executing **build_and_push.sh** in the previous step. Copy the image URI. We will use this when we create the model object on SageMaker. 
 
     <account_number>.dkr.ecr.us-west-2.amazonaws.com/image_classification_sample:latest
 
@@ -157,34 +163,39 @@ The ideas shown here will work in any language or environment. You'll need to ch
 
 
 
-## Create a test event for the Lambda function.
+## Create a Lambda Function to Test your Endpoint.
 
-1. Go to the Lambda console. Find a function called **Call_SageMaker_Endpoint_Image_Classification**. CloudFormation you ran in the previous step created this function. You will need to do 2 more setups and be ready to test the endpoint. 
+1. Go to the Lambda console, click on **Create function** button.
 
-1. The CloudFormation template created 2 environment variables, called **BUCKET_NAME** and **SAGEMAKER_ENDPOINT_NAME**. The value of each of variable would be empty, so enter the S3 bucket name and SageMaker endpoint name here.
+1. Select **Author from scratch** option, and enter funciton name, *Call-SageMaker-Endpoint-Image-Class*. Choose **Python 3.6** for the Runtime. 
 
-    **BUCKET_NAME** should be *gps-builder-session-[your-account-id]*. Replace *your-account-id* with your real account id.  
+    ![lambdaCreateFunction](./images/lambdaCreateFunction.png)
 
-    **SAGEMAKER_ENDPOINT_NAME** should be *image-classification-recycle* or if you chose your own name in the previous step, enter the name here. 
+    For the execution role, choose **Create a new role with basic Lambda permissions**. Then click on **Create function** button. 
+
+    ![lambdaCreateFunction2](./images/lambdaCreateFunction2.png)
+
+1. After the function is created, scroll down to **Execution role** section and click on the link of **View the Call-SageMaker-Endpoint-Image-Class-role-...** link under the **Existing role** dropdown. It will bring up the IAM console where you will add one policy to the role.   
+
+    ![lambdaIAM](./images/lambdaIAM.png)
+
+    On the Summry page, click on **Attach policy** button. 
+
+    ![IamAttachPolicy](./images/IamAttachPolicy.png)
+
+    Type **SageMakerFullAccess** on the search box. Select the checkbox once the policy name is  Click on the **Attach policy** button on the bottom of the page. 
+
+    ![IamAttachPolicy2](./images/IamAttachPolicy2.png)
+
+1. Copy and code from lambda_function.py and paste it into the code window.  
+
+    ![lambdaCode](./images/lambdaCode.png)
+
+1. Create **ENDPOINT_NAME** envrionment variables and enter your Sagemaker endpoint name. Create **BUCKET_NAME** envrionment variables and enter your bucket name.
 
     ![lambdaEnvVariable](./images/lambdaEnvVariable.png)
-    
-    Save the change. 
 
-1. Scroll up and click on the dropdown next to the **Test** button. Select **Configure test events**.  
+1. Increase the timeout on basic setting to be 30 seconds. Click on the **Save** on the upper right corner. 
 
-    ![lambdaCreateTestEvent](./images/lambdaCreateTestEvent.png)
+    ![lambdaTimeout](./images/lambdaTimeout.png)
 
-1. It will bring up a **Configure test event** window. Enter *testEvent* as Event name. Replace the default event with the following JSON. Click on **Create** button. 
-
-    ``` 
-    {
-        "ObjectKey1": "SageMaker_Custom_Container/data/glass_bottle.jpg",
-        "ObjectKey2": "SageMaker_Custom_Container/data/plastic_bottle.jpg",
-        "ObjectKey3": "SageMaker_Custom_Container/data/paper.jpg"
-    }
-    ``` 
-
-    The content of the JSON is image name to send to SageMaker endpoint. We will be sending one image at a time to see if the deployed model will respond with prediction. 
-
-    ![lambdaTestEvent](./images/lambdaTestEvent.png)
