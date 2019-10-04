@@ -222,5 +222,5 @@ What you learned in this session:
 
 Please do not forget:
 - To delete the SageMaker endpoint
-- To delete the CloudFormation template which deletes all of the objects provisioned by the template. 
+- To delete the CloudFormation template which deletes the objects provisioned by the template. 
 
