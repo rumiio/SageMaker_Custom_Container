@@ -56,7 +56,8 @@ The ideas shown here will work in any language or environment. You'll need to ch
 - **Create an endpoint configuration** on SageMaker.
 - **Create an endpoint** on SageMaker.
 - **Configure the test Lambda function** to call your endpoint.
-
+- Conclusion
+- Final Step
 
 ## Run CloudFormation Template
 
@@ -144,7 +145,7 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
 
 
 
-## Create an Endpoint Configuration on SageMaker.
+## Create an Endpoint Configuration on SageMaker
 
 1. On the SageMaker console, go to **Endpoint Configurations**, and click on **Create endpoint configuration** button.  
 
@@ -168,7 +169,7 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
 
 
 
-## Configure the Test Lambda Function.
+## Configure the Test Lambda Function
 
 1. Go to the Lambda console. Find a function called **Call_SageMaker_Endpoint_Image_Classification**. CloudFormation you ran in the previous step created this function. You will need to do 2 more setups and be ready to test the endpoint. 
 
@@ -199,5 +200,27 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
     The content of the JSON is image names to send to the SageMaker endpoint. We will be sending one image at a time to see if the deployed model will respond with a prediction. 
 
     ![lambdaTestEvent](./images/lambdaTestEvent.png)
+    
+    Click on the **Save** button once more to save the configuration update.
 
-1. Finally clikc on the **Test** button and see what the execution returns. 
+1. Finally click on the **Test** button and see what the execution returns. If you see the greenbox with *Execution result: succeeded* message, it means the endpoint you deployed to the custom container is able to successfully host the model.  
+
+    ![lambdaTestSuceed](./images/lambdaTestSuceed.png)
+
+
+
+## Conclusion
+
+What you learned in this session:
+- You learned how to build a Docker container to be used to deploy your train-completed model. 
+- You learned how to create a SageMaker model object that utilizes the custom container. 
+- You learned how to deploy the model as a SageMaker endpoint.
+- You learned how to test the SageMaker endpoint from a Lambda function.
+
+
+## Final Step
+
+Please do not forget:
+- To delete the SageMaker endpoint
+- To delete the CloudFormation template which deletes all of the objects provisioned by the template. 
+
