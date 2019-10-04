@@ -50,14 +50,14 @@ The ideas shown here will work in any language or environment. You'll need to ch
 
 ## Workshop Roadmap
 
-- **Run CloudFormation template** to create an [Amazon EC2](https://aws.amazon.com/ec2/) instance, a S3 bucket, an IAM role, and a test Lambda function. You will be using the EC2 instance to build the Docker image and push it to ECR. At the step following, You will be configuring the test Lambda function to call the SageMaker endpoint. 
-- **Connect to EC2 instance** via EC2 Instance Connect. 
-- **Create a model object** on SageMaker.
-- **Create an endpoint configuration** on SageMaker.
-- **Create an endpoint** on SageMaker.
-- **Configure the test Lambda function** to call your endpoint.
-- Conclusion
-- Final Step
+- [Run CloudFormation template](#run-cloudformation-template) to create an [Amazon EC2](https://aws.amazon.com/ec2/) instance, a S3 bucket, an IAM role, and a test Lambda function. You will be using the EC2 instance to build the Docker image and push it to ECR. At the step following, You will be configuring the test Lambda function to call the SageMaker endpoint. 
+- [Connect to EC2 instance](#connect-to-ec2-instance) via EC2 Instance Connect. 
+- [Create a model object](#create-a-model-object-on-sagemaker) on SageMaker.
+- [Create an endpoint configuration](#create-an-endpoint-configuration-on-sagemaker) on SageMaker.
+- [Create an endpoint](#create-an-endpoint) on SageMaker.
+- [Configure the test Lambda function](#configure-the-test-lambda-function) to call your endpoint.
+- [Conclusion](#conclusion)
+- [Final Step](#final-step)
 
 ## Run CloudFormation Template
 
