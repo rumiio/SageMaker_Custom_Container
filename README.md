@@ -94,7 +94,7 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
 
 1. After you are connected to your EC2 instance, do the following:
 
-    - Set up your instance to access your AWS account resources, using the following command. You will need **Access Key ID** and **Secret Access Key**. If you don't have them and don't know how to get them, go [here]().  
+    - Set up your instance to access your AWS account resources, using the following command. You will need **Access Key ID** and **Secret Access Key**. If you don't have them and don't know how to get them, follow instructions [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html).  
         ``` 
         aws configure
         ``` 
@@ -109,7 +109,7 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
         >chmod +x build_and_push.sh
         >./build_and_push.sh image_classification_sample
         ```
-    This step will take a few minutes.
+    This step will take 15-20 minutes.
 
 
 1. After the script completes, go to ECR console and see the repo and image that were created by executing **build_and_push.sh** in the previous step. Copy the image URI. We will use this when we create the model object on SageMaker. 
@@ -118,7 +118,7 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
 
     ![ecr](./images/ecr.png)
 
-1. Run the following commands to copy the contents of data and model folders to your S3 bucket (the bucket has to be in the same region as the region you will be using SageMaker) 
+1. Go back to the EC2 Instance Connect, run the following commands to copy the contents of data and model folders to your S3 bucket (the bucket has to be in the same region as the region you will be using SageMaker) 
     ``` 
     aws s3 cp ./data/glass_bottle.jpg s3://your-bucket-name/SageMaker_Custom_Container/data/glass_bottle.jpg
     aws s3 cp ./data/paper.jpg s3://your-bucket-name/SageMaker_Custom_Container/data/paper.jpg
@@ -168,7 +168,7 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
 
 
 
-## Create a test event for the Lambda function.
+## Configure the Test Lambda Function.
 
 1. Go to the Lambda console. Find a function called **Call_SageMaker_Endpoint_Image_Classification**. CloudFormation you ran in the previous step created this function. You will need to do 2 more setups and be ready to test the endpoint. 
 
@@ -196,6 +196,8 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
     }
     ``` 
 
-    The content of the JSON is image name to send to SageMaker endpoint. We will be sending one image at a time to see if the deployed model will respond with prediction. 
+    The content of the JSON is image names to send to the SageMaker endpoint. We will be sending one image at a time to see if the deployed model will respond with a prediction. 
 
     ![lambdaTestEvent](./images/lambdaTestEvent.png)
+
+1. Finally clikc on the **Test** button and see what the execution returns. 
