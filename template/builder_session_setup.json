@@ -105,8 +105,7 @@
         "InstanceType"   : { "Ref" : "01InstanceType" },
         "ImageId"        : { "Fn::FindInMap" : [ "AWSRegion2AMI", { "Ref" : "AWS::Region" }, "AMI" ]},
         "Tags"           : [ { "Key" : "Name", "Value" : {"Fn::Join": ["", ["GPS-", {"Ref": "AWS::StackName"} ]]} } ],
-		"KeyName" : { "Ref" : "02KeyName" },
-		"IamInstanceProfile" : { "Ref" : "BuilderSessionEC2InstanceProfile" },
+
 		"BlockDeviceMappings" : [
          {
             "DeviceName" : "/dev/xvda",

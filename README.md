@@ -46,23 +46,34 @@ The ideas shown here will work in any language or environment. You'll need to ch
 ## Prerequisites for the Workshop
 
 - Sign up for an AWS account
-- Know how to SSH into an EC2 instance.
 
 
 ## Workshop Roadmap
 
-- **Create a key Pair** for your [Amazon EC2](https://aws.amazon.com/ec2/) instance on where you will be be building the Docker image and push to ECR to be ready for use by SageMaker.
-- **Run CloudFormation template** to create an EC2 instance, IAM roles, a S3 bucket and a test Lambda function. 
+- **Run CloudFormation template** to create an [Amazon EC2](https://aws.amazon.com/ec2/) instance, a S3 bucket, an IAM role, and a test Lambda function. You will be using the EC2 instance to build the Docker image and push it to ECR. At the step following, You will be configuring the test Lambda function to call the SageMaker endpoint. 
 - **Connect to EC2 instance** via EC2 Instance Connect. 
 - **Create a model object** on SageMaker.
 - **Create an endpoint configuration** on SageMaker.
-- **Create an endpoint**.
-- **Create a test event for the Lambda function** to call your endpoint.
-
-## Create a Key Pair
+- **Create an endpoint** on SageMaker.
+- **Configure the test Lambda function** to call your endpoint.
 
 
 ## Run CloudFormation Template
+
+If you are comfortable provisioning an EC2 instance and creating a Lambda function, you can skip below and go ahead follow [this section]() instead.
+
+If you want to focus your learning on SageMaker features and custom containers and let CloudFormation handle setting up the environment and test function, select the region below, and click on the **Launch stack** link. It will bring up a CloudFormation console with the appropriate template loaded. 
+
+Region| Launch
+------|-----
+US East (N. Virginia) | [![Launch Module 1 in us-east-1](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/images/cloudformation-launch-stack-button.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=builder-session-setup&templateURL=https://aws-workshop-content-rumi.s3-us-west-2.amazonaws.com/SageMaker-Custom-Container/builder_session_setup.json)
+US West (Oregon) | [![Launch Module 1 in us-west-2](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/images/cloudformation-launch-stack-button.png)](https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=builder-session-setup&templateURL=https://aws-workshop-content-rumi.s3-us-west-2.amazonaws.com/SageMaker-Custom-Container/builder_session_setup.json)
+
+On the CloudFormation console, leave the default settings and values as is, and keep clicking on the **Next** button until you get to the **Review** page. Check the acknowledge checkbox, and click on the **Create stack** button. 
+
+It will take a few minutes for CloudFormation to complete provisioning of EC2 instance and other resources.   
+
+![cfCreateStack](./images/cfCreateStack.png)
 
 
 ## Connect to EC2 Instance
