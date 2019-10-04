@@ -41,7 +41,8 @@
       "Type" : "AWS::S3::Bucket",
 	  "Properties" : {
 		"BucketName" : {"Fn::Join": ["-", [{"Ref": "02BucketName"}, {"Ref": "AWS::AccountId"}]]}
-	  }
+	  },
+	  "DeletionPolicy" : "Retain"
     },
 	
     "BuilderSessionEC2Instance": {
