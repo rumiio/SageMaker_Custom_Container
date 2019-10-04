@@ -39,7 +39,7 @@ The ideas shown here will work in any language or environment. You'll need to ch
         - **/ping** will receive GET requests from the infrastructure. The program returns 200 if the container is up and accepting requests.
         - **/invocations** is the endpoint that receives client’s inference POST requests. The format of the request and the response depends on the algorithm. For this blog post, we will be receiving a JPEG image and the model will classify which type of recycling item it is. It returns the results text in a JSON format.
 
-    ![archDiagram](./images/archDiagram.jpg)
+    ![archDiagram](./images/arcDiagram.png)
 
 
 

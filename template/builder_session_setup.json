@@ -7,8 +7,8 @@
     "01InstanceType" : {
       "Description" : "Industrial equipment simulator instance type",
       "Type" : "String",
-      "Default" : "c5.18xlarge",
-      "AllowedValues" : [ "m4.16xlarge", "c5.18xlarge" ],
+      "Default" : "c5.9xlarge",
+      "AllowedValues" : [ "m4.16xlarge", "c5.9xlarge" ],
       "ConstraintDescription" : "Must be a valid EC2 instance type"
     },
 	"02BucketName" :{
