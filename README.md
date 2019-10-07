@@ -207,6 +207,7 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
 
     ![lambdaTestSuceed](./images/lambdaTestSuceed.png)
 
+**Congratulations! You have completed the session.** If your Lambda function returns **green** colored message back, move on to [Conclusion](#conclusion). 
 
 
 ## (Optional) Launch EC2 Instance
@@ -247,6 +248,8 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
 
 ## (Optional) Create a Lambda Function to Test your Endpoint.
 
+**If you used CloudFormation to create test Lambda function, skip this secion.**
+
 1. Go to the Lambda console, click on **Create function** button.
 
 1. Select **Author from scratch** option, and enter funciton name, *Call-SageMaker-Endpoint-Image-Class*. Choose **Python 3.6** for the Runtime. 
@@ -286,7 +289,7 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
 ## Conclusion
 
 What you learned in this session:
-- You learned how to build a Docker container to deploy your train-completed Pytorch model. You can use the same method to deploy a model trained in different machine learning framework. 
+- You learned how to build a Docker container to deploy your train-completed Pytorch model. You can use the same method to deploy a model trained in different machine learning framework. Just update [Dcokerfile](./blob/master/Dockerfile) to install the framework of your choice. 
 - You learned how to create a SageMaker model object that utilizes the custom container. 
 - You learned how to deploy the model as a SageMaker endpoint.
 - You learned how to test the SageMaker endpoint from a Lambda function.
