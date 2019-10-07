@@ -209,10 +209,45 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
 
 
 
+## (Optional) Launch EC2 Instance
+
+**If you used CloudFormation to launch EC2 instance, skip this section.**
+
+1. Click on **EC2** from the list of all services by entering EC2 into the **Find services** box. This will bring you to the EC2 console homepage. 
+
+1. To launch a new EC2 instance, click on the **Launch instance** button. 
+
+    ![ec2Console](./images/ec2Console.png)
+
+1. Look for Deep Learning AMI (Amazon Linux) by typing *Deep Learning* the searchbox. To choose Deep Learning AMI, click on the blue **Select** button. 
+
+    ![ec2Launch](./images/ec2Launch.png)
+
+1. If your account allows C instance, choose c5.4xlarge. If not, choose one of m5 instances. Click on **Next: Configure Instance Details** button. 
+
+    ![ec2InstanceType](./images/ec2InstanceType.png)
+
+1. No change reuqired on **Step 3: Configure Instance Details**. Click **Next: Add Storage** button. 
+
+    On the **Add Storage** page, make sure to change the storage size to 150 GiB. This is important step as building Docker container will run out of space if you leave as the default value of 75 GiB.
+
+    Click on **Review and Launch** button. 
+
+    ![ec2AddStorage](./images/ec2AddStorage.png)
+
+1. On **Step 7: Review Instance Launch**, click on the **Launch** button. It will bring up a **Select key pair window**. Select **Choose existing key pair** if you already have one. Select **Create a new key pair** if you don't have one. 
+
+    ![ec2KeyPair](./images/ec2KeyPair.png)
+
+1. It would take a few minutes before the instance is ready for use. Once the status shows *running*, look up IP address from **IPv4 Public IP**. Use that IP address to SSH into the instance along the KeyPair.
+
+    ![ec2List](./images/ec2List.png)
+
+
 ## Conclusion
 
 What you learned in this session:
-- You learned how to build a Docker container to be used to deploy your train-completed model. 
+- You learned how to build a Docker container to deploy your train-completed Pytorch model. You can use the same method to deploy a model trained in different machine learning framework. 
 - You learned how to create a SageMaker model object that utilizes the custom container. 
 - You learned how to deploy the model as a SageMaker endpoint.
 - You learned how to test the SageMaker endpoint from a Lambda function.
