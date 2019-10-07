@@ -50,7 +50,7 @@
       "Properties": {
         "InstanceType"   : { "Ref" : "01InstanceType" },
         "ImageId"        : { "Fn::FindInMap" : [ "AWSRegion2AMI", { "Ref" : "AWS::Region" }, "AMI" ]},
-        "Tags"           : [ { "Key" : "Name", "Value" : {"Fn::Join": ["", ["GPSTEC417-", {"Ref": "AWS::StackName"} ]]} } ],
+        "Tags"           : [ { "Key" : "Name", "Value" : {"Fn::Join": ["", {"Ref": "AWS::StackName"} ]} } ],
 		"BlockDeviceMappings" : [
          {
             "DeviceName" : "/dev/xvda",
