@@ -63,7 +63,7 @@ The ideas shown here will work in any language or environment. You'll need to ch
 
 If you are comfortable provisioning an EC2 instance and creating a Lambda function, you can skip below and go ahead follow [this section](#optional-launch-ec2-instance) instead.
 
-If you want to focus your learning on SageMaker features and custom containers and let CloudFormation handle setting up the environment and test function, select the region below, and click on the **Launch stack** link. It will bring up a CloudFormation console with the appropriate template loaded. 
+If you want to focus your learning on SageMaker features and custom containers and let CloudFormation handle setting up the environment and test function, select the region below. Click on the **Launch stack** link and it will bring up a CloudFormation console with the template loaded. 
 
 Region| Launch
 ------|-----
@@ -85,11 +85,11 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
 
     ![ec2Console](./images/ec2Console.png)
 
-1. Look for *GPS-Builder-Session* tagged instance. Make sure the instance is in *running* state. If running, select the instance by clicking on the checkbox on the left. Then click on the **Connect** button next to Launch Instance blue button. 
+1. Look for *GPSTEC417-Builder-Session* tagged instance. Make sure the instance is in *running* state. If running, select the instance by clicking on the checkbox on the left. Then click on the **Connect** button next to Launch Instance blue button. 
 
     ![ec2LaunchedInstance](./images/ec2LaunchedInstance.png)
 
-    It will bring up **Connect To Your Instance** window. Choose *EC2 Instance Connection* option and leave User name as defult. Click **Connect** blue button. 
+    It will bring up **Connect To Your Instance** window. Choose *EC2 Instance Connection* option and leave User name as default. Click **Connect** blue button. 
 
     ![ec2ConnectToInstance](./images/ec2ConnectToInstance.png)
 
@@ -175,7 +175,7 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
 
 1. The CloudFormation template created 2 environment variables, called **BUCKET_NAME** and **SAGEMAKER_ENDPOINT_NAME**. The value of each of variable would be empty, so enter the S3 bucket name and SageMaker endpoint name here.
 
-    **BUCKET_NAME** should be *gps-builder-session-[your-account-id]*. Replace *your-account-id* with your real account id.  
+    **BUCKET_NAME** should be *gpstec417-builder-session-[your-account-id]*. Replace *your-account-id* with your real account id.  
 
     **SAGEMAKER_ENDPOINT_NAME** should be *image-classification-recycle* or if you chose your own name in the previous step, enter the name here. 
 
@@ -289,7 +289,7 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
 ## Conclusion
 
 What you learned in this session:
-- You learned how to build a Docker container to deploy your train-completed Pytorch model. You can use the same method to deploy a model trained in different machine learning framework. Just update [Dockerfile](./Dockerfile) to install the framework of your choice. 
+- You learned how to build a Docker container to deploy your train-completed Pytorch model. You can use the same method to deploy a model trained in different machine learning framework. Just update [Dockerfile](Dockerfile) to install the framework of your choice. 
 - You learned how to create a SageMaker model object that utilizes the custom container. 
 - You learned how to deploy the model as a SageMaker endpoint.
 - You learned how to test the SageMaker endpoint from a Lambda function.
