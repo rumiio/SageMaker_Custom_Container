@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
 
-  "Description" : "AWS CloudFormation template for Build Custom Container with SageMaker workshop. Creates an EC2 instance and Cloud9.",
+  "Description" : "AWS CloudFormation template for Build Custom Container with SageMaker workshop. Creates an EC2 instance and test Lambda function.",
 
   "Parameters" : {
     "01InstanceType" : {
@@ -50,7 +50,7 @@
       "Properties": {
         "InstanceType"   : { "Ref" : "01InstanceType" },
         "ImageId"        : { "Fn::FindInMap" : [ "AWSRegion2AMI", { "Ref" : "AWS::Region" }, "AMI" ]},
-        "Tags"           : [ { "Key" : "Name", "Value" : {"Fn::Join": ["", {"Ref": "AWS::StackName"} ]} } ],
+        "Tags"           : [ { "Key" : "Name", "Value" : {"Fn::Join": ["", ["", {"Ref": "AWS::StackName"} ]]} } ],
 		"BlockDeviceMappings" : [
          {
             "DeviceName" : "/dev/xvda",
