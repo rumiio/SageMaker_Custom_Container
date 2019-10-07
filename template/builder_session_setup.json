@@ -7,8 +7,8 @@
     "01InstanceType" : {
       "Description" : "Industrial equipment simulator instance type",
       "Type" : "String",
-      "Default" : "c5.9xlarge",
-      "AllowedValues" : [ "m4.16xlarge", "c5.9xlarge" ],
+      "Default" : "c5.2xlarge",
+      "AllowedValues" : [ "m4.10xlarge", "c5.2xlarge" ],
       "ConstraintDescription" : "Must be a valid EC2 instance type"
     },
 	"02BucketName" :{
@@ -50,7 +50,7 @@
       "Properties": {
         "InstanceType"   : { "Ref" : "01InstanceType" },
         "ImageId"        : { "Fn::FindInMap" : [ "AWSRegion2AMI", { "Ref" : "AWS::Region" }, "AMI" ]},
-        "Tags"           : [ { "Key" : "Name", "Value" : {"Fn::Join": ["", ["", {"Ref": "AWS::StackName"} ]]} } ],
+        "Tags"           : [ { "Key" : "Name", "Value" :{ "Ref": "AWS::StackName" } } ],
 		"BlockDeviceMappings" : [
          {
             "DeviceName" : "/dev/xvda",
