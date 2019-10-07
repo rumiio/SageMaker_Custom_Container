@@ -50,7 +50,7 @@ The ideas shown here will work in any language or environment. You'll need to ch
 
 ## Workshop Roadmap
 
-- [Run CloudFormation template](#run-cloudformation-template) to create an [Amazon EC2](https://aws.amazon.com/ec2/) instance, a S3 bucket, an IAM role, and a test Lambda function. You will be using the EC2 instance to build the Docker image and push it to ECR. At the step following, You will be configuring the test Lambda function to call the SageMaker endpoint. 
+- [Run CloudFormation template](#run-cloudformation-template) to create an [Amazon EC2](https://aws.amazon.com/ec2/) instance, a S3 bucket, an IAM role, and a test Lambda function. You will be using the EC2 instance to build the Docker image and push it to ECR. Later on, You will be configuring the test Lambda function to call the SageMaker endpoint. 
 - [Connect to EC2 instance](#connect-to-ec2-instance) via EC2 Instance Connect. 
 - [Create a model object](#create-a-model-object-on-sagemaker) on SageMaker.
 - [Create an endpoint configuration](#create-an-endpoint-configuration-on-sagemaker) on SageMaker.
@@ -61,7 +61,7 @@ The ideas shown here will work in any language or environment. You'll need to ch
 
 ## Run CloudFormation Template
 
-If you are comfortable provisioning an EC2 instance and creating a Lambda function, you can skip below and go ahead follow [this section]() instead.
+If you are comfortable provisioning an EC2 instance and creating a Lambda function, you can skip below and go ahead follow [this section](#optional-launch-ec2-instance) instead.
 
 If you want to focus your learning on SageMaker features and custom containers and let CloudFormation handle setting up the environment and test function, select the region below, and click on the **Launch stack** link. It will bring up a CloudFormation console with the appropriate template loaded. 
 
@@ -242,6 +242,45 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
 1. It would take a few minutes before the instance is ready for use. Once the status shows *running*, look up IP address from **IPv4 Public IP**. Use that IP address to SSH into the instance along the KeyPair.
 
     ![ec2List](./images/ec2List.png)
+
+
+
+## (Optional) Create a Lambda Function to Test your Endpoint.
+
+1. Go to the Lambda console, click on **Create function** button.
+
+1. Select **Author from scratch** option, and enter funciton name, *Call-SageMaker-Endpoint-Image-Class*. Choose **Python 3.6** for the Runtime. 
+
+    ![lambdaCreateFunction](./images/lambdaCreateFunction.png)
+
+    For the execution role, choose **Create a new role with basic Lambda permissions**. Then click on **Create function** button. 
+
+    ![lambdaCreateFunction2](./images/lambdaCreateFunction2.png)
+
+1. After the function is created, scroll down to **Execution role** section and click on the link of **View the Call-SageMaker-Endpoint-Image-Class-role-...** link under the **Existing role** dropdown. It will bring up the IAM console where you will add one policy to the role.   
+
+    ![lambdaIAM](./images/lambdaIAM.png)
+
+    On the Summry page, click on **Attach policy** button. 
+
+    ![IamAttachPolicy](./images/IamAttachPolicy.png)
+
+    Type **SageMakerFullAccess** on the search box. Select the checkbox once the policy name is  Click on the **Attach policy** button on the bottom of the page. 
+
+    ![IamAttachPolicy2](./images/IamAttachPolicy2.png)
+
+1. Copy and code from lambda_function.py and paste it into the code window.  
+
+    ![lambdaCode](./images/lambdaCode.png)
+
+1. Create **ENDPOINT_NAME** envrionment variables and enter your Sagemaker endpoint name. Create **BUCKET_NAME** envrionment variables and enter your bucket name.
+
+    ![lambdaEnvVariable](./images/lambdaEnvVariable.png)
+
+1. Increase the timeout on basic setting to be 30 seconds. Click on the **Save** on the upper right corner. 
+
+    ![lambdaTimeout](./images/lambdaTimeout.png)
+
 
 
 ## Conclusion
