@@ -28,8 +28,8 @@ RUN curl -o ~/miniconda.sh  https://repo.continuum.io/miniconda/Miniconda3-lates
      /opt/conda/bin/conda install conda-build
 
 # This is just to get the environment-cpu.yml I updated
-RUN git clone https://github.com/rumiio/fastai-rumi.git
-RUN cd fastai-rumi/ && /opt/conda/bin/conda env create -f environment-cpu.yml
+RUN git clone https://github.com/rumiio/SageMaker_Custom_Container.git
+RUN cd SageMaker_Custom_Container/ && /opt/conda/bin/conda env create -f environment-cpu.yml
 RUN /opt/conda/bin/conda clean -ya
 
 
@@ -64,4 +64,4 @@ RUN chmod 755 /opt/program
 WORKDIR /opt/program
 RUN chmod 755 serve
 
-RUN ln -s /fastai-rumi/fastai fastai
+#RUN ln -s /fastai-rumi/fastai fastai
