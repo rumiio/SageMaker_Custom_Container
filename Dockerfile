@@ -17,6 +17,7 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
          python-qt4 &&\
     rm -rf /var/lib/apt/lists/*
 
+apt-get clean
 
 ENV PYTHON_VERSION=3.6
 
