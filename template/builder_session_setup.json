@@ -135,7 +135,7 @@
 					"s3 = boto3.resource('s3')",
 					"",
 					"def lambda_handler(event, context):",
-					"    OBJECT_KEY = event['ObjectKey3'] ",
+					"    OBJECT_KEY = event['glass bottle image'] ",
 					"    file_name = '/tmp/test_image.jpg'",
 					"    s3.Bucket(BUCKET_NAME).download_file(OBJECT_KEY, file_name)",
 					"",

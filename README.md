@@ -191,9 +191,9 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
 
     ``` 
     {
-        "ObjectKey1": "SageMaker_Custom_Container/data/glass_bottle.jpg",
-        "ObjectKey2": "SageMaker_Custom_Container/data/plastic_bottle.jpg",
-        "ObjectKey3": "SageMaker_Custom_Container/data/paper.jpg"
+        "glass bottle image": "SageMaker_Custom_Container/data/glass_bottle.jpg",
+        "pastic bottle image": "SageMaker_Custom_Container/data/plastic_bottle.jpg",
+        "paper image": "SageMaker_Custom_Container/data/paper.jpg"
     }
     ``` 
 
