@@ -1,12 +1,11 @@
 # Build an image that can do inference in SageMaker
 # This is a Python 2 image that uses the nginx, gunicorn, flask stack
 
-FROM amazonlinux:2
+FROM ubuntu:18.04
 
 MAINTAINER Amazon AI <sage-learner@amazon.com>
-
-
-RUN yum -y update && yum install -y \
+		 
+RUN apt-get -y update && apt-get install -y --no-install-recommends \
          wget \
          python \
          nginx \
@@ -15,9 +14,9 @@ RUN yum -y update && yum install -y \
          git \
          curl \
          python-qt4 &&\
-	 yum clean all && \
-	 rm -fr /var/cache/*
-
+         rm -rf /var/lib/apt/lists/*
+		 
+RUN apt-get clean
 
 ENV PYTHON_VERSION=3.6
 
