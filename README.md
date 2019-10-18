@@ -114,14 +114,14 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
         ``` 
         >cd SageMaker_Custom_Container     
         >chmod +x build_and_push.sh
-        >./build_and_push.sh image_classification_sample
+        >./build_and_push.sh image_classification_recycle
         ```
     This step will take 15-20 minutes.
 
 
 1. After the script completes, go to ECR console and see the repo and image that were created by executing **build_and_push.sh** in the previous step. Copy the image URI. We will use this when we create the model object on SageMaker. 
 
-    <account_number>.dkr.ecr.us-west-2.amazonaws.com/image_classification_sample:latest
+    <account_number>.dkr.ecr.us-west-2.amazonaws.com/image_classification_recycle:latest
 
     ![ecr](./images/ecr.png)
 
@@ -173,17 +173,21 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
 
     ![sagemakerEndpoint](./images/sagemakerEndpoint.png)
 
+    This would take 5-10 min to complete. When you see the status *InService*, you are ready to test. 
+
+    ![sagemakerEndpointSuccess](./images/sagemakerEndpointSuccess.png)
+
 
 
 ## Configure the Test Lambda Function
 
-1. Go to the Lambda console. Find a function called **Call_SageMaker_Endpoint_Image_Classification**. CloudFormation you ran in the previous step created this function. You will need to do 2 more setups and be ready to test the endpoint. 
+1. Go to the Lambda console. Find a function called **Call_SageMaker_Endpoint_Image_Classification**. CloudFormation you ran in the previous step created this function. 
 
-1. The CloudFormation template created 2 environment variables, called **BUCKET_NAME** and **SAGEMAKER_ENDPOINT_NAME**. The value of each of variable would be empty, so enter the S3 bucket name and SageMaker endpoint name here.
+1. The function was created with 2 environment variables, called **BUCKET_NAME** and **SAGEMAKER_ENDPOINT_NAME**. The value of each of variable would be empty. Enter the S3 bucket name and SageMaker endpoint name here.
 
-    **BUCKET_NAME** should be *gpstec417-builder-session-[your-account-id]*. Replace *your-account-id* with your real account id.  
+    **BUCKET_NAME** should be *gpstec417-builder-session-[your-account-id]*. Replace *your-account-id* with your account id.  
 
-    **SAGEMAKER_ENDPOINT_NAME** should be *image-classification-recycle* or if you chose your own name in the previous step, enter the name here. 
+    **SAGEMAKER_ENDPOINT_NAME** should be *image-classification-recycle* or if you chose your own name, enter the name here. 
 
     ![lambdaEnvVariable](./images/lambdaEnvVariable.png)
     
@@ -203,11 +207,11 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
     }
     ``` 
 
-    The content of the JSON is image names to send to the SageMaker endpoint. We will be sending one image at a time to see if the deployed model will respond with a prediction. 
+    They are test JPEG names to send to the SageMaker endpoint. We will be sending one image at a time to see if the deployed model will respond with a prediction. 
 
     ![lambdaTestEvent](./images/lambdaTestEvent.png)
     
-    Click on the **Save** button once more to save the configuration update.
+    Click on the **Save** button to save the configuration update.
 
 1. Finally click on the **Test** button and see what the execution returns. If you see the greenbox with *Execution result: succeeded* message, it means the endpoint you deployed to the custom container is able to successfully host the model.  
 
