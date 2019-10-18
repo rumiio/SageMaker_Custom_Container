@@ -19,7 +19,7 @@ If there isn't direct SDK support for your environment, don't worry. You'll see 
 
 We will show how to package a simple Pytorch image classification model which classifies types of recycle item. For simplification, there are 3 categories of recycle item, paper, glass bottle, and plastic bottle. The model predicts the image passed on is any of the 3 categories.   
 
-The example is purposefully fairly trivial since the point is to show the surrounding structure that you'll want to add to your own code to host it in Amazon SageMaker.
+The example is purposefully fairly trivial since the point is to show the surrounding structure that you'll want to add to your own code to host it in SageMaker.
 
 The ideas shown here will work in any language or environment. You'll need to choose the right tools for your environment to serve HTTP requests for inference, but good HTTP environments are available in every language these days.
 
@@ -59,6 +59,7 @@ The ideas shown here will work in any language or environment. You'll need to ch
 - [Conclusion](#conclusion)
 - [Final Step](#final-step)
 
+
 ## Run CloudFormation Template
 
 If you are comfortable provisioning an EC2 instance and creating a Lambda function, you can skip below and go ahead follow [this section](#optional-launch-ec2-instance) instead.
@@ -70,11 +71,16 @@ Region| Launch
 US East (N. Virginia) | [![Launch Module 1 in us-east-1](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/images/cloudformation-launch-stack-button.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=GPSTEC417-Builder-Session&templateURL=https://aws-workshop-content-rumi.s3-us-west-2.amazonaws.com/SageMaker-Custom-Container/builder_session_setup.json)
 US West (Oregon) | [![Launch Module 1 in us-west-2](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/images/cloudformation-launch-stack-button.png)](https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=GPSTEC417-Builder-Session&templateURL=https://aws-workshop-content-rumi.s3-us-west-2.amazonaws.com/SageMaker-Custom-Container/builder_session_setup.json)
 
+<details>
+<summary><strong>CloudFormation Launch Instructions (expand for details)</strong></summary><p>
 On the CloudFormation console, leave the default settings and values as is, and keep clicking on the **Next** button until you get to the **Review** page. Check the acknowledge checkbox, and click on the **Create stack** button. 
 
 It will take a few minutes for CloudFormation to complete provisioning of EC2 instance and other resources.   
 
 ![cfCreateStack](./images/cfCreateStack.png)
+
+</p></details>
+
 
 
 ## Connect to EC2 Instance
@@ -214,6 +220,9 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
 
 **If you used CloudFormation to launch EC2 instance, skip this section.**
 
+<details>
+<summary><strong>EC2 Instance Launch Instructions (expand for details)</strong></summary><p>
+
 1. Click on **EC2** from the list of all services by entering EC2 into the **Find services** box. This will bring you to the EC2 console homepage. 
 
 1. To launch a new EC2 instance, click on the **Launch instance** button. 
@@ -244,11 +253,15 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
 
     ![ec2List](./images/ec2List.png)
 
+</p></details>
 
 
 ## (Optional) Create a Lambda Function to Test your Endpoint.
 
 **If you used CloudFormation to create test Lambda function, skip this secion.**
+
+<details>
+<summary><strong>Instructions To Create Lambda Function  (expand for details)</strong></summary><p>
 
 1. Go to the Lambda console, click on **Create function** button.
 
@@ -284,6 +297,7 @@ It will take a few minutes for CloudFormation to complete provisioning of EC2 in
 
     ![lambdaTimeout](./images/lambdaTimeout.png)
 
+</p></details>
 
 
 ## Conclusion
