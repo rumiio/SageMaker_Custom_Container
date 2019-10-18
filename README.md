@@ -35,7 +35,7 @@ The ideas shown here will work in any language or environment. You'll need to ch
     - **nginx.conf** is the configuration file for the nginx front-end. No need to modify this file and use it as-is.
     - **serve** is the program that starts when the container is started for hosting. It simply launches the gunicorn server which runs multiple instances of the Flask app defined in predictor.py. No need to modify this file and use it as-is.
     - **wsgi.py** is a small wrapper used to invoke the Flask app. No need to modify this file and use it as-is.
-    - **predictor.py** is the program that actually implements the Flask web server and the image classification predictions. Amazon SageMaker uses two URLs in the container:
+    - **predictor.py** is the program that actually implements the Flask web server and the image classification predictions. SageMaker uses two URLs in the container:
         - **/ping** will receive GET requests from the infrastructure. The program returns 200 if the container is up and accepting requests.
         - **/invocations** is the endpoint that receives client’s inference POST requests. The format of the request and the response depends on the algorithm. For this blog post, we will be receiving a JPEG image and the model will classify which type of recycling item it is. It returns the results text in a JSON format.
 
@@ -50,7 +50,7 @@ The ideas shown here will work in any language or environment. You'll need to ch
 
 ## Workshop Roadmap
 
-- [Run CloudFormation template](#run-cloudformation-template) to create an [Amazon EC2](https://aws.amazon.com/ec2/) instance, a S3 bucket, an IAM role, and a test Lambda function. You will be using the EC2 instance to build the Docker image and push it to ECR. Later on, You will be configuring the test Lambda function to call the SageMaker endpoint. 
+- [Run CloudFormation template](#run-cloudformation-template) to create an [Amazon EC2](https://aws.amazon.com/ec2/) instance, a S3 bucket, an IAM role, and a test Lambda function. You will be using the EC2 instance to build the Docker image and push it to ECR. You will configure the test Lambda function to call the SageMaker endpoint. 
 - [Connect to EC2 instance](#connect-to-ec2-instance) via EC2 Instance Connect. 
 - [Create a model object](#create-a-model-object-on-sagemaker) on SageMaker.
 - [Create an endpoint configuration](#create-an-endpoint-configuration-on-sagemaker) on SageMaker.
@@ -73,7 +73,7 @@ US West (Oregon) | [![Launch Module 1 in us-west-2](http://docs.aws.amazon.com/A
 
 <details>
 <summary><strong>CloudFormation Launch Instructions (expand for details)</strong></summary><p>
-On the CloudFormation console, leave the default settings and values as is, and keep clicking on the **Next** button until you get to the **Review** page. Check the acknowledge checkbox, and click on the **Create stack** button. 
+On the CloudFormation console, leave the default settings and values as is, and keep clicking on the <b>Next</b> button until you get to the <b>Review</b> page. Check the acknowledge checkbox, and click on the <b>Create stack</b> button. 
 
 It will take a few minutes for CloudFormation to complete provisioning of EC2 instance and other resources.   
 
