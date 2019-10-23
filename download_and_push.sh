@@ -5,13 +5,13 @@
 
 # The argument to this script is the image name. This will be used as the image on the local
 # machine and combined with the account and region to form the repository name for ECR.
-#image=$1
+image=$1
 
-#if [ "$image" == "" ]
-#then
-#    echo "Usage: $0 <image-name>"
-#    exit 1
-#fi
+if [ "$image" == "" ]
+then
+    echo "Usage: $0 <image-name>"
+    exit 1
+fi
 
 #chmod +x image_classification/serve
 
@@ -37,10 +37,10 @@ docker pull mr891gloyf.execute-api.us-west-2.amazonaws.com/image_classification_
 
 #aws ecr describe-repositories --repository-names "${image}" > /dev/null 2>&1
 
-#if [ $? -ne 0 ]
-#then
-#    aws ecr create-repository --repository-name "${image}" > /dev/null
-#fi
+if [ $? -ne 0 ]
+then
+    aws ecr create-repository --repository-name "${image}" > /dev/null
+fi
 
 # Get the login command from ECR and execute it directly
 $(aws ecr get-login --region ${region} --no-include-email)
@@ -51,7 +51,8 @@ $(aws ecr get-login --region ${region} --no-include-email)
 #docker build  -t ${image} .
 #docker tag ${image} ${fullname}
 
-docker push mr891gloyf.execute-api.us-west-2.amazonaws.com/image_classification_recycle:latest
-#${fullname}
+docker tag mr891gloyf.execute-api.us-west-2.amazonaws.com/image_classification_recycle:latest ${fullname}
 
-#docker save --output image_class.tar ${image}  
+docker push ${fullname} 
+#mr891gloyf.execute-api.us-west-2.amazonaws.com/image_classification_recycle:latest
+
