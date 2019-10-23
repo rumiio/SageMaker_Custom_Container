@@ -31,8 +31,6 @@ region=${region:-us-west-2}
 
 fullname="${account}.dkr.ecr.${region}.amazonaws.com/${image}:latest"
 
-docker pull mr891gloyf.execute-api.us-west-2.amazonaws.com/image_classification_recycle:latest
-
 # If the repository doesn't exist in ECR, create it.
 
 aws ecr describe-repositories --repository-names "${image}" > /dev/null 2>&1
@@ -45,14 +43,14 @@ fi
 # Get the login command from ECR and execute it directly
 $(aws ecr get-login --region ${region} --no-include-email)
 
-# Build the docker image locally with the image name and then push it to ECR
-# with the full name.
+# Download the docker image to local
+# Tag the image download to the repository just created
+# and then push it to ECR.
 
-#docker build  -t ${image} .
-#docker tag ${image} ${fullname}
+#Pull the image that is available
+docker pull mr891gloyf.execute-api.us-west-2.amazonaws.com/image_classification_recycle:latest
 
 docker tag mr891gloyf.execute-api.us-west-2.amazonaws.com/image_classification_recycle:latest ${fullname}
 
 docker push ${fullname} 
-#mr891gloyf.execute-api.us-west-2.amazonaws.com/image_classification_recycle:latest
 
