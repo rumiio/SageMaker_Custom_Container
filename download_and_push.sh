@@ -35,7 +35,7 @@ docker pull mr891gloyf.execute-api.us-west-2.amazonaws.com/image_classification_
 
 # If the repository doesn't exist in ECR, create it.
 
-#aws ecr describe-repositories --repository-names "${image}" > /dev/null 2>&1
+aws ecr describe-repositories --repository-names "${image}" > /dev/null 2>&1
 
 if [ $? -ne 0 ]
 then
